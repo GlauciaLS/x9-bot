@@ -62,7 +62,7 @@ async def on_voice_state_update(member, before, after):
             audio = audio_set.get(member.id, "default")
 
         channel = member.voice.channel
-        source = discord.FFmpegPCMAudio(audio, options="-loglevel panic")
+        source = discord.FFmpegPCMAudio("resources/" + audio, options="-loglevel panic")
 
         voice_client = await channel.connect()
         await sleep(1)
