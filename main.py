@@ -53,7 +53,7 @@ async def on_voice_state_update(member, before, after):
         audio_set = {
             "default": "audio.mp3",
             559498710766321705: "saveiro.mp3",
-            458703706137952285: "depressao.mp3",
+            458703706137952285: "mutley.mp3",
             254393768067727360: "isolados.mp3",
             575432193795424257: "bolsonara.mp3",
             348484028367896586: "depressao.mp3"
