@@ -31,7 +31,7 @@ async def on_member_join(ctx):
 @client.command(pass_context=True)
 async def pressao(ctx):
     voice_client = await ctx.message.author.voice.channel.connect()
-    source = discord.FFmpegPCMAudio("pressao.mp3", options="-loglevel panic")
+    source = discord.FFmpegPCMAudio("resources/pressao.mp3", options="-loglevel panic")
     await play_audio(source, voice_client)
 
 
@@ -45,12 +45,15 @@ async def leave(ctx):
 @client.event
 async def on_voice_state_update(member, before, after):
     if not member.bot and (
-            (before.self_deaf is True and after.self_deaf is False) or (before.channel != after.channel)):
+            (before.self_deaf is True and after.self_deaf is False) or
+            (before.channel != after.channel and after.channel is not None)):
+
+        channel = member.voice.channel
 
         audio_set = {
             "default": "audio.mp3",
             559498710766321705: "saveiro.mp3",
-            458703706137952285: "mutley.mp3",
+            458703706137952285: "depressao.mp3",
             254393768067727360: "isolados.mp3",
             575432193795424257: "bolsonara.mp3",
             348484028367896586: "depressao.mp3"
@@ -61,7 +64,6 @@ async def on_voice_state_update(member, before, after):
         else:
             audio = audio_set.get(member.id, "default")
 
-        channel = member.voice.channel
         source = discord.FFmpegPCMAudio("resources/" + audio, options="-loglevel panic")
 
         voice_client = await channel.connect()
