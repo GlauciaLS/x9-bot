@@ -29,6 +29,13 @@ async def on_member_join(ctx):
 
 
 @client.command(pass_context=True)
+async def depressao(ctx):
+    voice_client = await ctx.message.author.voice.channel.connect()
+    source = discord.FFmpegPCMAudio("resources/depressao_completo.mp3", options="-loglevel panic")
+    await play_audio(source, voice_client)
+
+
+@client.command(pass_context=True)
 async def pressao(ctx):
     voice_client = await ctx.message.author.voice.channel.connect()
     source = discord.FFmpegPCMAudio("resources/pressao.mp3", options="-loglevel panic")
