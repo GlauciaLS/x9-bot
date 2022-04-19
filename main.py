@@ -7,7 +7,12 @@ from asyncio import sleep
 intents = discord.Intents.default()
 intents.members = True
 
-client = commands.Bot(command_prefix='>', intents=intents)
+prefix = '>'
+
+resources_files = os.listdir("resources")
+commands_audio = list(filter(lambda file: file.endswith(".mp3"), resources_files))
+
+client = commands.Bot(command_prefix=prefix, intents=intents)
 
 
 @client.command(pass_context=True)
@@ -28,18 +33,30 @@ async def on_member_join(ctx):
         await guild.system_channel.send(mensagem)
 
 
-@client.command(pass_context=True)
-async def depressao(ctx):
-    voice_client = await ctx.message.author.voice.channel.connect()
-    source = discord.FFmpegPCMAudio("resources/depressao_completo.mp3", options="-loglevel panic")
-    await play_audio(source, voice_client)
+@client.event
+async def on_message(msg):
+    if prefix == msg.content[0]:
+        command = msg.content[1:].lower() + ".mp3"
+        if command in commands_audio:
+            if msg.author.voice is None:
+                await msg.channel.send(f'<@{msg.author.id}>, você deve se conectar a um canal de voz para executar '
+                                       f'esse comando.')
+                return
+            voice_client = await msg.author.voice.channel.connect()
+            source = discord.FFmpegPCMAudio("resources/" + command, options="-loglevel panic")
+            await play_audio(source, voice_client)
+        else:
+            await client.process_commands(msg)
 
 
 @client.command(pass_context=True)
-async def pressao(ctx):
-    voice_client = await ctx.message.author.voice.channel.connect()
-    source = discord.FFmpegPCMAudio("resources/pressao.mp3", options="-loglevel panic")
-    await play_audio(source, voice_client)
+async def commands(ctx):
+    full_message = ""
+    list_commands = list(map(lambda command: command[:-4], commands_audio)) + ["leave", "oi"]
+    for command_formatted in list_commands:
+        full_message = prefix + command_formatted + "\n" + full_message
+
+    await ctx.message.channel.send(full_message)
 
 
 @client.command(pass_context=True)
@@ -74,7 +91,7 @@ async def on_voice_state_update(member, before, after):
         source = discord.FFmpegPCMAudio("resources/" + audio, options="-loglevel panic")
 
         voice_client = await channel.connect()
-        await sleep(1)
+        await sleep(0.2)
         await play_audio(source, voice_client)
 
 
@@ -82,7 +99,7 @@ async def play_audio(source, voice_client):
     voice_client.play(source)
 
     while voice_client.is_playing():
-        await sleep(1)
+        await sleep(0.2)
     await voice_client.disconnect()
 
 
