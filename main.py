@@ -33,6 +33,11 @@ async def on_member_join(ctx):
         await guild.system_channel.send(mensagem)
 
 
+@client.command(pass_context=True)
+async def carro(ctx):
+    await ctx.message.channel.send("meu carro tá fazendo um barulho estranho ãããããããããããaãããããââââââââAÂÂÂÂÂ ééééééééééééèèèèèèèèè ôôôôôôôôôôôôâââââAÂÂââââããããã cadê o mecanico", tts=True)
+
+
 @client.event
 async def on_message(msg):
     if prefix == msg.content[0]:
@@ -52,7 +57,7 @@ async def on_message(msg):
 @client.command(pass_context=True)
 async def commands(ctx):
     full_message = ""
-    list_commands = list(map(lambda command: command[:-4], commands_audio)) + ["leave", "oi"]
+    list_commands = list(map(lambda command: command[:-4], commands_audio)) + ["carro", "leave", "oi"]
     for command_formatted in list_commands:
         full_message = prefix + command_formatted + "\n" + full_message
 
@@ -68,9 +73,9 @@ async def leave(ctx):
 
 @client.event
 async def on_voice_state_update(member, before, after):
-    if not member.bot and (
+    if not member.bot and after.channel is not None and (
             (before.self_deaf is True and after.self_deaf is False) or
-            (before.channel != after.channel and after.channel is not None)):
+            (before.channel != after.channel and after.channel != after.channel.guild.afk_channel)):
 
         channel = member.voice.channel
 
@@ -80,7 +85,8 @@ async def on_voice_state_update(member, before, after):
             458703706137952285: "mutley.mp3",
             254393768067727360: "isolados.mp3",
             575432193795424257: "bolsonara.mp3",
-            348484028367896586: "depressao.mp3"
+            348484028367896586: "depressao.mp3",
+            359083993989120000: "surprise.mp3"
         }
 
         if before.self_deaf is True and after.self_deaf is False:
@@ -91,7 +97,7 @@ async def on_voice_state_update(member, before, after):
         source = discord.FFmpegPCMAudio("resources/" + audio, options="-loglevel panic")
 
         voice_client = await channel.connect()
-        await sleep(0.2)
+        await sleep(0.5)
         await play_audio(source, voice_client)
 
 
