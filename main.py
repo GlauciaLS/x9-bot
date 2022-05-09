@@ -22,7 +22,7 @@ async def on_ready(ctx):
 
 @client.command(pass_context=True)
 async def oi(ctx):
-    await ctx.message.author.send("oi!", tts=True)
+    await ctx.message.author.send("oi!")
 
 
 @client.command(pass_context=True)
@@ -35,7 +35,8 @@ async def on_member_join(ctx):
 
 @client.command(pass_context=True)
 async def carro(ctx):
-    await ctx.message.channel.send("meu carro tá fazendo um barulho estranho ãããããããããããaãããããââââââââAÂÂÂÂÂ ééééééééééééèèèèèèèèè ôôôôôôôôôôôôâââââAÂÂââââããããã cadê o mecanico", tts=True)
+    await ctx.message.channel.send("meu carro tá fazendo um barulho estranho ãããããããããããaãããããââââââââAÂÂÂÂÂ "
+                                   "ééééééééééééèèèèèèèèè ôôôôôôôôôôôôâââââAÂÂââââããããã cadê o mecânico", tts=True)
 
 
 @client.event
@@ -73,9 +74,7 @@ async def leave(ctx):
 
 @client.event
 async def on_voice_state_update(member, before, after):
-    if not member.bot and after.channel is not None and (
-            (before.self_deaf is True and after.self_deaf is False) or
-            (before.channel != after.channel and after.channel != after.channel.guild.afk_channel)):
+    if valid_voice_update_event(member, before, after):
 
         channel = member.voice.channel
 
@@ -92,13 +91,19 @@ async def on_voice_state_update(member, before, after):
         if before.self_deaf is True and after.self_deaf is False:
             audio = audio_set.get("default")
         else:
-            audio = audio_set.get(member.id, "default")
+            audio = audio_set.get(member.id, "audio.mp3")
 
         source = discord.FFmpegPCMAudio("resources/" + audio, options="-loglevel panic")
 
         voice_client = await channel.connect()
         await sleep(0.5)
         await play_audio(source, voice_client)
+
+
+def valid_voice_update_event(member, before, after):
+    return not member.bot and after.channel is not None and (
+            (before.self_deaf is True and after.self_deaf is False) or
+            (before.channel != after.channel and after.channel != after.channel.guild.afk_channel))
 
 
 async def play_audio(source, voice_client):
