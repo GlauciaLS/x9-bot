@@ -14,6 +14,16 @@ commands_audio = list(filter(lambda file: file.endswith(".mp3"), resources_files
 
 client = commands.Bot(command_prefix=prefix, intents=intents)
 
+audio_set = {
+    "default": "audio.mp3",
+    559498710766321705: "saveiro.mp3",
+    458703706137952285: "mutley.mp3",
+    254393768067727360: "isolados.mp3",
+    575432193795424257: "bolsonara.mp3",
+    348484028367896586: "depressao.mp3",
+    359083993989120000: "surprise.mp3"
+}
+
 
 @client.command(pass_context=True)
 async def on_ready(ctx):
@@ -78,17 +88,7 @@ async def on_voice_state_update(member, before, after):
 
         channel = member.voice.channel
 
-        audio_set = {
-            "default": "audio.mp3",
-            559498710766321705: "saveiro.mp3",
-            458703706137952285: "mutley.mp3",
-            254393768067727360: "isolados.mp3",
-            575432193795424257: "bolsonara.mp3",
-            348484028367896586: "depressao.mp3",
-            359083993989120000: "surprise.mp3"
-        }
-
-        if before.self_deaf is True and after.self_deaf is False:
+        if member_is_not_self_deaf_anymore(before, after):
             audio = audio_set.get("default")
         else:
             audio = audio_set.get(member.id, "audio.mp3")
@@ -98,6 +98,10 @@ async def on_voice_state_update(member, before, after):
         voice_client = await channel.connect()
         await sleep(0.5)
         await play_audio(source, voice_client)
+
+
+def member_is_not_self_deaf_anymore(before, after):
+    return before.self_deaf is True and after.self_deaf is False
 
 
 def valid_voice_update_event(member, before, after):
