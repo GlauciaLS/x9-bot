@@ -51,10 +51,10 @@ async def carro(ctx):
 
 @client.event
 async def on_message(msg):
-    if prefix == msg.content[0]:
+    if check_command(msg):
         command = msg.content[1:].lower() + ".mp3"
-        if command in commands_audio:
-            if msg.author.voice is None:
+        if check_command_exists_at_resources(command):
+            if member_is_not_at_voice_channel(msg):
                 await msg.channel.send(f'<@{msg.author.id}>, você deve se conectar a um canal de voz para executar '
                                        f'esse comando.')
                 return
@@ -116,6 +116,18 @@ async def play_audio(source, voice_client):
     while voice_client.is_playing():
         await sleep(0.2)
     await voice_client.disconnect()
+
+
+def check_command(msg):
+    return prefix == msg.content[0]
+
+
+def check_command_exists_at_resources(command):
+    return command in commands_audio
+
+
+def member_is_not_at_voice_channel(msg):
+    return msg.author.voice is None
 
 
 token = os.environ.get('TOKEN', None)
