@@ -9,8 +9,9 @@ intents.members = True
 
 prefix = '>'
 
-resources_files = os.listdir("resources")
-commands_audio = list(filter(lambda file: file.endswith(".mp3"), resources_files))
+audio_files = os.listdir("resources/audio")
+gif_files = os.listdir("resources/gif")
+commands_audio = list(filter(lambda file: file.endswith(".mp3"), audio_files))
 
 client = commands.Bot(command_prefix=prefix, intents=intents)
 
@@ -58,8 +59,10 @@ async def on_message(msg):
                 await msg.channel.send(f'<@{msg.author.id}>, você deve se conectar a um canal de voz para executar '
                                        f'esse comando.')
                 return
+
             voice_client = await msg.author.voice.channel.connect()
-            source = discord.FFmpegPCMAudio("resources/" + command, options="-loglevel panic")
+            source = discord.FFmpegPCMAudio("resources/audio/" + command, options="-loglevel panic")
+            await publish_message_gif(msg)
             await play_audio(source, voice_client)
         else:
             await client.process_commands(msg)
@@ -93,7 +96,7 @@ async def on_voice_state_update(member, before, after):
         else:
             audio = audio_set.get(member.id, "audio.mp3")
 
-        source = discord.FFmpegPCMAudio("resources/" + audio, options="-loglevel panic")
+        source = discord.FFmpegPCMAudio("resources/audio/" + audio, options="-loglevel panic")
 
         voice_client = await channel.connect()
         await sleep(0.5)
@@ -110,6 +113,12 @@ def valid_voice_update_event(member, before, after):
             (before.channel != after.channel and after.channel != after.channel.guild.afk_channel))
 
 
+async def publish_message_gif(msg):
+    gif = msg.content[1:].lower() + ".gif"
+    if gif in gif_files:
+        await msg.channel.send(file=discord.File("resources/gif/" + gif))
+
+
 async def play_audio(source, voice_client):
     voice_client.play(source)
 
@@ -119,7 +128,7 @@ async def play_audio(source, voice_client):
 
 
 def check_command(msg):
-    return prefix == msg.content[0]
+    return msg.content and len(msg.content) > 0 and prefix == msg.content[0]
 
 
 def check_command_exists_at_resources(command):
