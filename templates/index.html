@@ -78,8 +78,8 @@
                 <h5 class="card-title">Avisos</h5>
                 <p class="card-text">
                   Seja notificado quando alguém reativar o áudio ou ingressar em
-                  um canal de voz, assim você poderá reconhecer ele apenas pelo áudio tocado
-                  pelo bot.
+                  um canal de voz, assim você poderá reconhecer ele apenas pelo
+                  áudio tocado pelo bot.
                 </p>
                 <p id="warning-span">(<s>shhh, o assunto voltou</s>)</p>
               </div>
@@ -111,7 +111,8 @@
           <h1>Contribuição</h1>
 
           <p>
-            Deseja adicionar um áudio ou GIF ao bot? Você pode fazer o upload dele aqui!
+            Deseja adicionar um áudio ou GIF ao bot? Você pode fazer o upload
+            dele aqui!
             <br />
             Lembre-se: o nome do arquivo deverá ser o nome do comando utilizado.
             <br />
@@ -164,24 +165,22 @@
       var data = new FormData();
       data.append("file", input.files[0]);
 
-      try {
-        const response = await fetch("https://x9-bot.herokuapp.com/file", {
-          method: "POST",
-          body: data,
-        });
+      const response = await fetch("https://x9-bot.herokuapp.com/file", {
+        method: "POST",
+        body: data,
+      });
 
-        swal({
-          title: "Contribuição enviada com sucesso!",
-          text: "Agora é só aguardar a aprovação do PR :)",
-          icon: "success",
-        });
-      } catch (err) {
-        swal({
-          title: "Opa...",
-          text: "Houve algum erro ao efetuar sua solicitação :(",
-          icon: "error",
-        });
-      }
+      response.ok
+        ? swal({
+            title: "Contribuição enviada com sucesso!",
+            text: "Agora é só aguardar a aprovação do PR :)",
+            icon: "success",
+          })
+        : swal({
+            title: "Opa...",
+            text: "Houve algum erro ao efetuar sua solicitação :(",
+            icon: "error",
+          });
 
       button.querySelector("span").classList.add("display-none");
       button.querySelector("span.text-btn").innerHTML = "Enviar";
