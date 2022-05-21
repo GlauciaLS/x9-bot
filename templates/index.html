@@ -60,6 +60,7 @@
               href="https://github.com/GlauciaLS/x9-bot"
               target="_blank"
               class="btn btn-light fw-bold"
+              id="link-repo"
               >Repositório no GitHub</a
             >
           </p>
@@ -76,8 +77,8 @@
               <div class="card-body">
                 <h5 class="card-title">Avisos</h5>
                 <p class="card-text">
-                  Seja notificado quando alguém reativa o áudio ou ingressa em
-                  um canal de voz, podendo ser reconhecido pelo áudio tocado
+                  Seja notificado quando alguém reativar o áudio ou ingressar em
+                  um canal de voz, assim você poderá reconhecer ele apenas pelo áudio tocado
                   pelo bot.
                 </p>
                 <p id="warning-span">(<s>shhh, o assunto voltou</s>)</p>
@@ -110,7 +111,9 @@
           <h1>Contribuição</h1>
 
           <p>
-            Deseja adicionar um áudio ou GIF ao bot? Faça o upload dele aqui:
+            Deseja adicionar um áudio ou GIF ao bot? Você pode fazer o upload dele aqui!
+            <br />
+            Lembre-se: o nome do arquivo deverá ser o nome do comando utilizado.
             <br />
             <strong>Só são permitidos arquivos do tipo MP3 e GIF!</strong>
           </p>
@@ -168,8 +171,8 @@
         });
 
         swal({
-          title: "Valeu!",
-          text: "Contribuição enviada com sucesso! :)",
+          title: "Contribuição enviada com sucesso!",
+          text: "Agora é só aguardar a aprovação do PR :)",
           icon: "success",
         });
       } catch (err) {

@@ -14,8 +14,12 @@ section {
   align-items: center;
 }
 
-section#destaques h1 {
-  height: 100px;
+section h1 {
+  height: 70px;
+}
+
+a#link-repo {
+    margin: 20px 0;
 }
 
 .card {
@@ -30,6 +34,10 @@ p#warning-span {
 
 #file-form {
   margin: 30px 0;
+}
+
+input.form-control {
+  width: 400px;
 }
 
 .display-none {
