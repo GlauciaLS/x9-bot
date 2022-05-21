@@ -4,10 +4,7 @@
     <meta charset="UTF-8" />
     <meta http-equiv="X-UA-Compatible" content="IE=edge" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <link
-      rel="stylesheet"
-      href="{{ url_for('static', filename='style.css') }}"
-    />
+    <link rel="stylesheet" href="{{ url_for('static', filename='style.css') }}" />
     <link
       href="https://cdn.jsdelivr.net/npm/bootstrap@5.2.0-beta1/dist/css/bootstrap.min.css"
       rel="stylesheet"
@@ -37,7 +34,10 @@
                 <a class="nav-link" href="#">Home</a>
               </li>
               <li class="nav-item">
-                <a class="nav-link" href="#destaque">Destaque</a>
+                <a class="nav-link" href="#destaques">Destaques</a>
+              </li>
+              <li class="nav-item">
+                <a class="nav-link" href="#contribuicao">Contribuição</a>
               </li>
             </ul>
           </div>
@@ -59,6 +59,73 @@
               >Repositório no GitHub</a
             >
           </p>
+        </section>
+
+        <section
+          class="lead d-flex flex-column bg-light text-dark"
+          id="destaques"
+        >
+          <h1>Destaques</h1>
+
+          <div class="cards d-flex d-row">
+            <div class="card" style="width: 18rem">
+              <div class="card-body">
+                <h5 class="card-title">Avisos</h5>
+                <p class="card-text">
+                  Seja notificado quando alguém reativa o áudio ou ingressa em
+                  um canal de voz, podendo ser reconhecido pelo áudio tocado
+                  pelo bot.
+                </p>
+                <p id="warning-span">(<s>shhh, o assunto voltou</s>)</p>
+              </div>
+            </div>
+
+            <div class="card" style="width: 18rem">
+              <div class="card-body">
+                <h5 class="card-title">Efeitos sonoros</h5>
+                <p class="card-text">
+                  Emita seus efeitos sonoros favoritos, inclusive músicas e
+                  memes. Você mesmo pode escolher o nome para cada comando!
+                </p>
+              </div>
+            </div>
+
+            <div class="card" style="width: 18rem">
+              <div class="card-body">
+                <h5 class="card-title">GIFs</h5>
+                <p class="card-text">
+                  Além de áudios em geral, inclua também GIFs a serem exibidos
+                  no chat ao ativar algum comando em específico :)
+                </p>
+              </div>
+            </div>
+          </div>
+        </section>
+
+        <section class="lead d-flex flex-column" id="contribuicao">
+          <h1>Contribuição</h1>
+
+          <p>
+            Deseja adicionar um áudio ou GIF ao bot? Faça o upload dele aqui:
+            <br />
+            <strong>Só são permitidos arquivos do tipo MP3 e GIF!</strong>
+          </p>
+
+          <form
+            method="post"
+            enctype="multipart/form-data"
+            action="https://localhost:8080/file"
+            id="file-form"
+          >
+            <input
+              class="form-control"
+              type="file"
+              id="file-input"
+              accept=".mp3,.gif"
+            />
+            <br />
+            <button class="btn btn-light fw-bold" type="submit">Enviar</button>
+          </form>
         </section>
       </main>
 
