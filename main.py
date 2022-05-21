@@ -4,6 +4,8 @@ from discord.ext import commands
 from discord.utils import get
 from asyncio import sleep
 
+from app import keep_alive
+
 intents = discord.Intents.default()
 intents.members = True
 
@@ -72,8 +74,15 @@ async def on_message(msg):
 async def commands(ctx):
     full_message = ""
     list_commands = list(map(lambda command: command[:-4], commands_audio)) + ["carro", "leave", "oi"]
+    count = 0
+
     for command_formatted in list_commands:
-        full_message = prefix + command_formatted + "\n" + full_message
+        if count == 5:
+            full_message = "\n" + full_message
+            count = 0
+
+        full_message = prefix + command_formatted + "\t" + full_message
+        count += 1
 
     await ctx.message.channel.send(full_message)
 
@@ -141,4 +150,5 @@ def member_is_not_at_voice_channel(msg):
 
 token = os.environ.get('TOKEN', None)
 
+keep_alive()
 client.run(token)

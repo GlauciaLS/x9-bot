@@ -1,0 +1,19 @@
+* {
+  inset: 0;
+}
+
+html {
+  scroll-behavior: smooth;
+}
+
+nav.navbar {
+  height: 65px;
+  padding: 10px 100px;
+}
+
+section {
+  min-height: 700px;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
