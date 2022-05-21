@@ -4,7 +4,10 @@
     <meta charset="UTF-8" />
     <meta http-equiv="X-UA-Compatible" content="IE=edge" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <link rel="stylesheet" href="{{ url_for('static', filename='style.css') }}" />
+    <link
+      rel="stylesheet"
+      href="{{ url_for('static', filename='style.css') }}"
+    />
     <link
       href="https://cdn.jsdelivr.net/npm/bootstrap@5.2.0-beta1/dist/css/bootstrap.min.css"
       rel="stylesheet"
@@ -111,21 +114,15 @@
             <strong>Só são permitidos arquivos do tipo MP3 e GIF!</strong>
           </p>
 
-          <form
-            method="post"
-            enctype="multipart/form-data"
-            action="https://localhost:8080/file"
-            id="file-form"
-          >
-            <input
-              class="form-control"
-              type="file"
-              id="file-input"
-              accept=".mp3,.gif"
-            />
-            <br />
-            <button class="btn btn-light fw-bold" type="submit">Enviar</button>
-          </form>
+          <input
+            class="form-control"
+            name="file"
+            type="file"
+            id="file-input"
+            accept=".mp3,.gif"
+          />
+          <br />
+          <button class="btn btn-light fw-bold" id="submit-btn">Enviar</button>
         </section>
       </main>
 
@@ -142,4 +139,26 @@
       </footer>
     </div>
   </body>
+
+  <script type="text/javascript">
+    var button = document.getElementById("submit-btn");
+    var input = document.querySelector('input[type="file"]');
+
+    debugger;
+
+    button.addEventListener("click", async (_) => {
+      var data = new FormData();
+      data.append("file", input.files[0]);
+
+      try {
+        const response = await fetch("http://x9-bot.herokuapp.com/file", {
+          method: "POST",
+          body: data,
+        });
+        alert("Contribuição enviada com sucesso! :)");
+      } catch (err) {
+        alert("Opa, houve algum erro ao efetuar sua solicitação :(");
+      }
+    });
+  </script>
 </html>
