@@ -1,10 +1,12 @@
 import os
+
+from quart import Quart, render_template, url_for
 import discord
 from discord.ext import commands
 from discord.utils import get
 from asyncio import sleep
 
-from app import keep_alive
+app = Quart(__name__, static_folder="templates")
 
 intents = discord.Intents.default()
 intents.members = True
@@ -26,6 +28,11 @@ audio_set = {
     348484028367896586: "depressao.mp3",
     359083993989120000: "surprise.mp3"
 }
+
+
+@app.route('/')
+async def home():
+    return await render_template("index.html")
 
 
 @client.command(pass_context=True)
@@ -148,7 +155,8 @@ def member_is_not_at_voice_channel(msg):
     return msg.author.voice is None
 
 
+PORT = os.environ.get('PORT', 8080)
 token = os.environ.get('TOKEN', None)
 
-keep_alive()
+client.loop.create_task(app.run_task('0.0.0.0', PORT))
 client.run(token)
