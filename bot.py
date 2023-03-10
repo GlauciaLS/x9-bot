@@ -12,17 +12,7 @@ client = commands.Bot(command_prefix=prefix, intents=intents)
 
 audio_files = os.listdir("resources/audio")
 gif_files = os.listdir("resources/gif")
-
-audio_set = {
-    "default": "audio.mp3",
-    559498710766321705: "saveiro.mp3",
-    458703706137952285: "mutley.mp3",
-    254393768067727360: "isolados.mp3",
-    575432193795424257: "bolsonara.mp3",
-    348484028367896586: "depressao.mp3",
-    359083993989120000: "surprise.mp3"
-}
-
+soundtrack_files = os.listdir("resources/soundtracks")
 
 @client.command(pass_context=True)
 async def carro(ctx):
@@ -41,7 +31,7 @@ async def on_message(msg):
             return
 
         await publish_message_gif(msg)
-        await play_audio(f"{command}.mp3", msg.author.voice.channel)
+        await play_audio(f"audio/{command}.mp3", msg.author.voice.channel)
 
         if check_command_exists_at_resources(f"{command}.mp3", audio_files) is False \
                 and check_command_exists_at_resources(f"{command}.gif", gif_files) is False:
@@ -55,9 +45,9 @@ async def on_voice_state_update(member, before, after):
         channel = member.voice.channel
 
         if member_is_not_self_deaf_anymore(before, after):
-            audio = audio_set.get("default")
+            audio = "soundtracks/default.mp3"
         else:
-            audio = audio_set.get(member.id, "audio.mp3")
+            audio = get_soundtrack_by_user(member.id)
 
         await sleep(0.5)
         await play_audio(audio, channel)
@@ -88,8 +78,8 @@ async def leave(ctx):
 
 
 async def play_audio(audio, channel):
-    if check_command_exists_at_resources(audio, audio_files):
-        source = discord.FFmpegPCMAudio("resources/audio/" + audio, options="-loglevel panic")
+    if check_command_exists_at_resources(audio):
+        source = discord.FFmpegPCMAudio(f"resources/{audio}", options="-loglevel panic")
         voice_client = await channel.connect()
         voice_client.play(source)
 
@@ -118,8 +108,19 @@ def check_valid_command(msg):
     return msg.content and len(msg.content) > 0 and prefix == msg.content[0] and not msg.author.bot
 
 
-def check_command_exists_at_resources(command, files):
-    return command in files
+def check_command_exists_at_resources(command):
+    command_split = command.split("/")
+    name_file = command_split[-1]
+    return (name_file in audio_files) or (name_file in soundtrack_files)
+
+
+def get_soundtrack_by_user(id):
+    name = f"{id}.mp3"
+
+    if (name in soundtrack_files):
+        return f"soundtracks/{name}"
+
+    return "soundtracks/default.mp3"
 
 
 def member_is_not_at_voice_channel(msg):

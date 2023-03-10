@@ -1,189 +1,142 @@
 <!DOCTYPE html>
 <html lang="pt-br" class="h-100">
-  <head>
-    <meta charset="UTF-8" />
-    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
-    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <link
-      rel="stylesheet"
-      href="{{ url_for('static', filename='style.css') }}"
-    />
-    <link
-      href="https://cdn.jsdelivr.net/npm/bootstrap@5.2.0-beta1/dist/css/bootstrap.min.css"
-      rel="stylesheet"
-      integrity="sha384-0evHe/X+R7YkIZDRvuzKMRqM+OrBnVFBL6DOitfPri4tjfHxaWutUpFmBp4vmVor"
-      crossorigin="anonymous"
-    />
-    <script src="https://unpkg.com/sweetalert/dist/sweetalert.min.js"></script>
-    <title>X9 Bot</title>
-  </head>
-  <body class="d-flex h-100 bg-dark text-white">
-    <div class="cover-container d-flex w-100 h-100 mx-auto flex-column">
-      <header class="mb-auto text-white bg-dark">
-        <nav class="navbar fixed-top navbar-expand-lg navbar-dark bg-dark">
-          <a class="navbar-brand" href="#">
-            <img
-              src="{{ url_for('static', filename='img/icon.png') }}"
-              width="30"
-              height="30"
-              class="d-inline-block align-top"
-              alt=""
-              id="logo"
-            />
-            X9 Bot
-          </a>
-          <div class="collapse navbar-collapse" id="navbarNav">
-            <ul class="navbar-nav">
-              <li class="nav-item active">
-                <a class="nav-link" href="#">Home</a>
-              </li>
-              <li class="nav-item">
-                <a class="nav-link" href="#destaques">Destaques</a>
-              </li>
-              <li class="nav-item">
-                <a class="nav-link" href="#contribuicao">Contribuição</a>
-              </li>
-            </ul>
-          </div>
-        </nav>
-      </header>
 
-      <main class="px-3 text-center">
-        <section class="lead d-flex flex-column">
-          <h1>X9 Bot</h1>
-          <p class="lead">
-            Projeto de bot para Discord utilizando Python e discord.py. Uso
-            exclusivamente pessoal.
-          </p>
-          <p class="lead">
-            <a
-              href="https://github.com/GlauciaLS/x9-bot"
-              target="_blank"
-              class="btn btn-light fw-bold"
-              id="link-repo"
-              >Repositório no GitHub</a
-            >
-          </p>
-        </section>
+<head>
+  <meta charset="UTF-8" />
+  <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <link rel="stylesheet" href="{{ url_for('static', filename='style.css') }}" />
+  <!-- <link rel="stylesheet" href="style.css" /> -->
+  <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.2.0-beta1/dist/css/bootstrap.min.css" rel="stylesheet"
+    integrity="sha384-0evHe/X+R7YkIZDRvuzKMRqM+OrBnVFBL6DOitfPri4tjfHxaWutUpFmBp4vmVor" crossorigin="anonymous" />
+  <script src="https://unpkg.com/sweetalert/dist/sweetalert.min.js"></script>
+  <title>X9 Bot</title>
+</head>
 
-        <section
-          class="lead d-flex flex-column bg-light text-dark"
-          id="destaques"
-        >
-          <h1>Destaques</h1>
+<body class="d-flex h-100 bg-dark text-white">
+  <div class="cover-container d-flex w-100 h-100 mx-auto flex-column">
+    <header class="mb-auto text-white bg-dark">
+      <nav class="navbar fixed-top navbar-expand-lg navbar-dark bg-dark">
+        <a class="navbar-brand" href="#">
+          <img src="{{ url_for('static', filename='img/icon.png') }}" width="30" height="30"
+            class="d-inline-block align-top" alt="" id="logo" />
+          X9 Bot
+        </a>
+        <div class="collapse navbar-collapse" id="navbarNav">
+          <ul class="navbar-nav">
+            <li class="nav-item active">
+              <a class="nav-link" href="#">Home</a>
+            </li>
+            <li class="nav-item">
+              <a class="nav-link" href="#destaques">Destaques</a>
+            </li>
+            <li class="nav-item">
+              <a class="nav-link" href="#contribuicao">Contribuição</a>
+            </li>
+          </ul>
+        </div>
+      </nav>
+    </header>
 
-          <div class="cards d-flex d-row">
-            <div class="card" style="width: 18rem">
-              <div class="card-body">
-                <h5 class="card-title">Avisos</h5>
-                <p class="card-text">
-                  Seja notificado quando alguém reativar o áudio ou ingressar em
-                  um canal de voz, assim você poderá reconhecer ele apenas pelo
-                  áudio tocado pelo bot.
-                </p>
-                <p id="warning-span">(<s>shhh, o assunto voltou</s>)</p>
-              </div>
-            </div>
-
-            <div class="card" style="width: 18rem">
-              <div class="card-body">
-                <h5 class="card-title">Efeitos sonoros</h5>
-                <p class="card-text">
-                  Emita seus efeitos sonoros favoritos, inclusive músicas e
-                  memes. Você mesmo pode escolher o nome para cada comando!
-                </p>
-              </div>
-            </div>
-
-            <div class="card" style="width: 18rem">
-              <div class="card-body">
-                <h5 class="card-title">GIFs</h5>
-                <p class="card-text">
-                  Além de áudios em geral, inclua também GIFs a serem exibidos
-                  no chat ao ativar algum comando em específico :)
-                </p>
-              </div>
-            </div>
-          </div>
-        </section>
-
-        <section class="lead d-flex flex-column" id="contribuicao">
-          <h1>Contribuição</h1>
-
-          <p>
-            Deseja adicionar um áudio ou GIF ao bot? Você pode fazer o upload
-            dele aqui!
-            <br />
-            Lembre-se: o nome do arquivo deverá ser o nome do comando utilizado.
-            <br />
-            <strong>Só são permitidos arquivos do tipo MP3 e GIF!</strong>
-          </p>
-
-          <input
-            class="form-control"
-            name="file"
-            type="file"
-            id="file-input"
-            accept=".mp3,.gif"
-          />
-          <br />
-          <button class="btn btn-light fw-bold" id="submit-btn">
-            <span
-              class="spinner-border spinner-border-sm display-none"
-              role="status"
-              aria-hidden="true"
-            ></span>
-            <span class="text-btn">Enviar</span>
-          </button>
-        </section>
-      </main>
-
-      <footer class="mt-auto text-center text-white-50">
-        <p>
-          Desenvolvido por
-          <a
-            href="https://github.com/GlauciaLS/"
-            target="_blank"
-            class="text-white"
-            >Glaucia Silva</a
-          >
+    <main class="px-3 text-center">
+      <section class="lead d-flex flex-column">
+        <h1>X9 Bot</h1>
+        <p class="lead">
+          Projeto de bot para Discord utilizando Python e discord.py. Uso
+          exclusivamente pessoal.
         </p>
-      </footer>
-    </div>
-  </body>
+        <p class="lead">
+          <a href="https://github.com/GlauciaLS/x9-bot" target="_blank" class="btn btn-light fw-bold"
+            id="link-repo">Repositório no GitHub</a>
+        </p>
+      </section>
 
-  <script type="text/javascript">
-    var button = document.getElementById("submit-btn");
-    var input = document.querySelector('input[type="file"]');
+      <section class="lead d-flex flex-column bg-light text-dark" id="destaques">
+        <h1>Destaques</h1>
 
-    button.addEventListener("click", async (_) => {
-      button
-        .querySelector("span.spinner-border")
-        .classList.remove("display-none");
-      button.querySelector("span.text-btn").innerHTML = "Carregando...";
+        <div class="cards d-flex d-row">
+          <div class="card" style="width: 18rem">
+            <div class="card-body">
+              <h5 class="card-title">Avisos</h5>
+              <p class="card-text">
+                Seja notificado quando alguém reativar o áudio ou ingressar em
+                um canal de voz, assim você poderá reconhecer ele apenas pelo
+                áudio tocado pelo bot.
+              </p>
+              <p id="warning-span">(<s>shhh, o assunto voltou</s>)</p>
+            </div>
+          </div>
 
-      var data = new FormData();
-      data.append("file", input.files[0]);
+          <div class="card" style="width: 18rem">
+            <div class="card-body">
+              <h5 class="card-title">Efeitos sonoros</h5>
+              <p class="card-text">
+                Emita seus efeitos sonoros favoritos, inclusive músicas e
+                memes. Você mesmo pode escolher o nome para cada comando!
+              </p>
+            </div>
+          </div>
 
-      const response = await fetch("https://x9-bot.herokuapp.com/file", {
-        method: "POST",
-        body: data,
-      });
+          <div class="card" style="width: 18rem">
+            <div class="card-body">
+              <h5 class="card-title">GIFs</h5>
+              <p class="card-text">
+                Além de áudios em geral, inclua também GIFs a serem exibidos
+                no chat ao ativar algum comando em específico :)
+              </p>
+            </div>
+          </div>
+        </div>
+      </section>
 
-      response.ok
-        ? swal({
-            title: "Contribuição enviada com sucesso!",
-            text: "Agora é só aguardar a aprovação do PR :)",
-            icon: "success",
-          })
-        : swal({
-            title: "Opa...",
-            text: "Houve algum erro ao efetuar sua solicitação :(",
-            icon: "error",
-          });
+      <section class="lead d-flex flex-column" id="contribuicao">
+        <h1>Contribuição</h1>
 
-      button.querySelector("span").classList.add("display-none");
-      button.querySelector("span.text-btn").innerHTML = "Enviar";
-    });
-  </script>
+        <p>
+          Deseja adicionar um áudio ou GIF ao bot? Você pode fazer o upload
+          dele aqui!
+          <br />
+          Lembre-se: o nome do arquivo deverá ser o nome do comando utilizado.
+          <br />
+          <strong>Só são permitidos arquivos do tipo MP3 e GIF!</strong>
+        </p>
+
+        <input class="form-control" name="file" type="file" id="file-input" accept=".mp3,.gif" />
+        <br />
+        <button class="btn btn-light fw-bold" id="submit-btn">
+          <span class="spinner-border spinner-border-sm display-none" role="status" aria-hidden="true"></span>
+          <span class="text-btn">Enviar</span>
+        </button>
+      </section>
+
+      <section class="lead d-flex flex-column bg-light text-dark" id="soundtrack">
+        <h1>Soundtrack</h1>
+
+        <p>
+          Uma soundtrack personalizada para sempre que você entrar em uma call?
+          <strong>Agora isso é possível!</strong>
+          <br />
+          Para isso, basta enviar um arquivo MP3 nomeado com seu ID do Discord.
+        </p>
+
+        <input class="form-control" name="soundtrack" type="file" id="soundtrack-input" accept=".mp3" />
+        <br />
+        <button class="btn btn-dark fw-bold" id="submit-soundtrack-btn">
+          <span class="spinner-border spinner-border-sm display-none" role="status" aria-hidden="true"></span>
+          <span class="text-btn">Enviar</span>
+        </button>
+      </section>
+    </main>
+
+    <footer class="mt-auto text-center text-white-50">
+      <p>
+        Desenvolvido por
+        <a href="https://github.com/GlauciaLS/" target="_blank" class="text-white">Glaucia Silva</a>
+      </p>
+    </footer>
+  </div>
+  <!-- <script src="script.js"></script> -->
+  <script src="{{ url_for('static', filename='script.js') }}"></script>
+</body>
+
 </html>

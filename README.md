@@ -9,5 +9,7 @@ O projeto está hospedado no Heroku e possui integração com o CircleCI para de
   - Quart
   - PyGithub
   - Discord.py
+  - FFmpeg
   
-Link para acesso: https://x9-bot.herokuapp.com/
+Link para acesso: [X9 BOT](https://x9-bot.herokuapp.com/)
+Instruções para instalação local do [FFmpeg](https://github.com/adaptlearning/adapt_authoring/wiki/Installing-FFmpeg)
