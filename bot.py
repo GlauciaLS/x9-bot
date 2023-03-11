@@ -14,6 +14,7 @@ audio_files = os.listdir("resources/audio")
 gif_files = os.listdir("resources/gif")
 soundtrack_files = os.listdir("resources/soundtracks")
 
+
 @client.command(pass_context=True)
 async def carro(ctx):
     await ctx.message.channel.send("meu carro tá fazendo um barulho estranho ãããããããããããaãããããââââââââAÂÂÂÂÂ "
@@ -78,7 +79,7 @@ async def leave(ctx):
 
 
 async def play_audio(audio, channel):
-    if check_command_exists_at_resources(audio):
+    if check_command_exists_at_resources(audio, audio_files) or check_soundtrack_exists_at_resources(audio):
         source = discord.FFmpegPCMAudio(f"resources/{audio}", options="-loglevel panic")
         voice_client = await channel.connect()
         voice_client.play(source)
@@ -108,10 +109,14 @@ def check_valid_command(msg):
     return msg.content and len(msg.content) > 0 and prefix == msg.content[0] and not msg.author.bot
 
 
-def check_command_exists_at_resources(command):
+def check_soundtrack_exists_at_resources(command):
     command_split = command.split("/")
     name_file = command_split[-1]
     return (name_file in audio_files) or (name_file in soundtrack_files)
+
+
+def check_command_exists_at_resources(command, files):
+    return command in files
 
 
 def get_soundtrack_by_user(id):

@@ -7,6 +7,7 @@ app = Quart(__name__, static_folder="templates")
 GITHUB_TOKEN = os.environ.get('GITHUB_TOKEN', None)
 github = Github(GITHUB_TOKEN)
 
+
 @app.route('/')
 async def home():
     return await render_template("index.html")
@@ -70,4 +71,4 @@ def create_pull_request(file_request, path):
 
 def validate_file(file_request, audios, gifs):
     return (file_request.mimetype not in ["image/gif", "audio/mpeg"]) or (file_request.filename in audios) or (
-                file_request.filename in gifs)
+            file_request.filename in gifs)
